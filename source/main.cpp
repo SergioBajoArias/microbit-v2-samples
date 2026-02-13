@@ -1,3 +1,4 @@
+
 #include "MicroBit.h"
 #include "samples/Tests.h"
 
@@ -7,7 +8,8 @@ int main()
 {
     uBit.init();
 
-    out_of_box_experience();
+    // out_of_box_experience();
+    hello_world();
 
     microbit_panic( 999 );
 }
