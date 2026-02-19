@@ -2,6 +2,7 @@
 #include "CodalDmesg.h"
 #include "OOB.h"
 #include "HelloWorld.h"
+#include "LowLevelCoding.h"
 
 #ifndef MB_NEXT_TESTS_H
 #define MB_NEXT_TESTS_H

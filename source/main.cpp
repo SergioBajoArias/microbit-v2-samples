@@ -9,7 +9,8 @@ int main()
     uBit.init();
 
     // out_of_box_experience();
-    hello_world();
+    // hello_world();
+    low_level_coding();
 
     microbit_panic( 999 );
 }
