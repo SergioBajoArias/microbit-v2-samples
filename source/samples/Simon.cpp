@@ -10,25 +10,25 @@
 using namespace std;
 
 const char * const a_emoji ="\
-    000,000,000,000,000\n\
-    000,000,000,000,000\n\
     255,000,000,000,000\n\
-    000,000,000,000,000\n\
-    000,000,000,000,000\n";
+    255,000,000,000,000\n\
+    255,000,000,000,000\n\
+    255,000,000,000,000\n\
+    255,000,000,000,000\n";
 
 const char * const b_emoji ="\
-    000,000,000,000,000\n\
-    000,000,000,000,000\n\
     000,000,000,000,255\n\
-    000,000,000,000,000\n\
-    000,000,000,000,000\n";
+    000,000,000,000,255\n\
+    000,000,000,000,255\n\
+    000,000,000,000,255\n\
+    000,000,000,000,255\n";
 
 const char * const ab_emoji ="\
-    000,000,000,000,000\n\
-    000,000,000,000,000\n\
     255,000,000,000,255\n\
-    000,000,000,000,000\n\
-    000,000,000,000,000\n";
+    255,000,000,000,255\n\
+    255,000,000,000,255\n\
+    255,000,000,000,255\n\
+    255,000,000,000,255\n";
 
 const char * const tick_emoji ="\
     000,000,000,000,000\n\
@@ -78,16 +78,15 @@ void printSequence(std::list<SeqItems>& sequence) {
   for(SeqItems seqItem : sequence) {
     switch(seqItem) {
       case A:   uBit.display.print(a_Image);
-                uBit.sleep(1000);
                 break;
       case B:   uBit.display.print(b_Image);
-                uBit.sleep(1000);
                 break;
       case AB:  uBit.display.print(ab_Image);
-                uBit.sleep(1000);
                 break;
       default:  ;
     }
+    uBit.sleep(1000);
+    uBit.display.clear();
   }
 }
 
