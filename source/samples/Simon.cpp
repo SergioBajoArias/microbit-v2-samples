@@ -9,6 +9,47 @@
 
 using namespace std;
 
+const char * const a_emoji ="\
+    000,000,000,000,000\n\
+    000,000,000,000,000\n\
+    255,000,000,000,000\n\
+    000,000,000,000,000\n\
+    000,000,000,000,000\n";
+
+const char * const b_emoji ="\
+    000,000,000,000,000\n\
+    000,000,000,000,000\n\
+    000,000,000,000,255\n\
+    000,000,000,000,000\n\
+    000,000,000,000,000\n";
+
+const char * const ab_emoji ="\
+    000,000,000,000,000\n\
+    000,000,000,000,000\n\
+    255,000,000,000,255\n\
+    000,000,000,000,000\n\
+    000,000,000,000,000\n";
+
+const char * const tick_emoji ="\
+    000,000,000,000,000\n\
+    000,000,000,000,255\n\
+    000,000,000,255,000\n\
+    255,000,255,000,000\n\
+    000,255,000,000,000\n";
+
+const char * const cross_emoji ="\
+    255,000,000,000,255\n\
+    000,255,000,255,000\n\
+    000,000,255,000,000\n\
+    000,255,000,255,000\n\
+    255,000,000,000,255\n";
+
+MicroBitImage a_Image(a_emoji);
+MicroBitImage b_Image(b_emoji);
+MicroBitImage ab_Image(ab_emoji);
+MicroBitImage tick_Image(tick_emoji);
+MicroBitImage cross_Image(cross_emoji);
+
 const int START_LEVEL = 4;
 const int LEVEL_SIZE = 3;
 int currentLevel = START_LEVEL;
@@ -34,7 +75,20 @@ std::list<SeqItems> generateRandomSequence() {
 }
 
 void printSequence(std::list<SeqItems>& sequence) {
-  
+  for(SeqItems seqItem : sequence) {
+    switch(seqItem) {
+      case A:   uBit.display.print(a_Image);
+                uBit.sleep(1000);
+                break;
+      case B:   uBit.display.print(b_Image);
+                uBit.sleep(1000);
+                break;
+      case AB:  uBit.display.print(ab_Image);
+                uBit.sleep(1000);
+                break;
+      default:  ;
+    }
+  }
 }
 
 void printGameOver(int score) {
