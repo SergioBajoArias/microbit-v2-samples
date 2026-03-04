@@ -2,4 +2,4 @@
 
 extern MicroBit uBit;
 
-void play_simon();
+void simon();
