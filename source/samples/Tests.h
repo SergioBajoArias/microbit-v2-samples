@@ -3,6 +3,7 @@
 #include "OOB.h"
 #include "HelloWorld.h"
 #include "LowLevelCoding.h"
+#include "Simon.h"
 
 #ifndef MB_NEXT_TESTS_H
 #define MB_NEXT_TESTS_H

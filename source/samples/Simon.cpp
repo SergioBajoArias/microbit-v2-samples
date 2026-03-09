@@ -1,3 +1,4 @@
+
 #include "Simon.h"
 #include "MicroBit.h"
 #include <cstdlib>
@@ -9,26 +10,33 @@
 
 using namespace std;
 
+const char * const smile_emoji ="\
+    000,000,000,000,000\n\
+    000,255,000,255,000\n\
+    000,000,000,000,000\n\
+    000,255,000,255,000\n\
+    000,000,255,000,000\n";
+
 const char * const a_emoji ="\
+    000,000,000,000,000\n\
     255,000,000,000,000\n\
     255,000,000,000,000\n\
     255,000,000,000,000\n\
-    255,000,000,000,000\n\
-    255,000,000,000,000\n";
+    000,000,000,000,000\n";
 
 const char * const b_emoji ="\
+    000,000,000,000,000\n\
     000,000,000,000,255\n\
     000,000,000,000,255\n\
     000,000,000,000,255\n\
-    000,000,000,000,255\n\
-    000,000,000,000,255\n";
+    000,000,000,000,000\n";
 
 const char * const ab_emoji ="\
+    000,000,000,000,000\n\
     255,000,000,000,255\n\
     255,000,000,000,255\n\
     255,000,000,000,255\n\
-    255,000,000,000,255\n\
-    255,000,000,000,255\n";
+    000,000,000,000,000\n";
 
 const char * const tick_emoji ="\
     000,000,000,000,000\n\
@@ -49,6 +57,17 @@ MicroBitImage b_Image(b_emoji);
 MicroBitImage ab_Image(ab_emoji);
 MicroBitImage tick_Image(tick_emoji);
 MicroBitImage cross_Image(cross_emoji);
+MicroBitImage smile_Image(smile_emoji);
+
+enum Note {
+    DO = 262,
+    RE = 294,
+    MI = 330,
+    FA = 349,
+    SOL = 392,
+    LA = 440,
+    SI = 494
+};
 
 enum Turns {
   PLAYER,
@@ -63,24 +82,55 @@ enum SeqItems {
 };
 
 const int START_LEVEL = 4;
-const int LEVEL_SIZE = 3;
+const int LEVEL_SIZE = 2;
+const int BEAT = 500;
 int score = 0;
 int currentLevel = START_LEVEL;
-bool gameOver = false;
 Turns currentTurn = SIMON;
 std::list<SeqItems> randomSequence;
 std::list<SeqItems> userSequence;
 
+static Pin *pin = NULL;
+static uint8_t pitchVolume = 0xff;
+
+static void analogPitch(int frequency) {
+    if (frequency <= 0 || pitchVolume == 0) {
+        pin->setAnalogValue(0);
+    } else {
+        // I don't understand the logic of this value.
+        // It is much louder on the real pin.
+        int v = 1 << (pitchVolume >> 5);
+        // If you flip the order of these they crash on the real pin with E030.
+        pin->setAnalogValue(v);
+        pin->setAnalogPeriodUs(1000000/frequency);
+    }
+    if (BEAT > 0) {
+        fiber_sleep(BEAT);
+        pin->setAnalogValue(0);
+        fiber_sleep(5);
+    }
+}
+
+void print(Note note, MicroBitImage image) {
+  uBit.display.printAsync(image);
+  analogPitch(note);
+}
+
+void print(ManagedString sound, MicroBitImage image) {
+  uBit.display.print(image);
+  uBit.audio.soundExpressions.play(sound);
+}
+
 void printA() {
-  uBit.display.print(a_Image);
+  print(DO, a_Image);
 }
 
 void printB() {
-  uBit.display.print(b_Image);
+  print(FA, b_Image);
 }
 
 void printAB() {
-  uBit.display.print(ab_Image);
+  print(SI, ab_Image);
 }
 
 SeqItems generateRandom() {
@@ -113,7 +163,11 @@ void printSequence(std::list<SeqItems>& sequence) {
 }
 
 void printGameOver() {
-  uBit.display.print("GAME OVER. SCORE " + score);
+  ManagedString gameOver = "GAME OVER. SCORE ";
+  ManagedString scoreMs = ManagedString(score);
+
+  uBit.display.clear();
+  uBit.display.scroll(gameOver + scoreMs);
 }
 
 void onButtonA(MicroBitEvent) {
@@ -139,12 +193,12 @@ void onButtonAB(MicroBitEvent) {
 
 void verifyAnswer() {
   if(randomSequence == userSequence) {
-    uBit.display.print(tick_Image);
+    print("spring", tick_Image);
     score++;
   } else {
-    uBit.display.print(cross_Image);
-    gameOver = true;
+    print("sad", cross_Image);
     printGameOver();
+    release_fiber();
   }
     
   if(score % LEVEL_SIZE == 0) {
@@ -156,6 +210,8 @@ void makeSimonTurn() {
   currentTurn = SIMON;
   randomSequence = generateRandomSequence();
   printSequence(randomSequence);
+  uBit.display.print(smile_Image);
+  userSequence.clear();
   currentTurn = PLAYER;
 }
 
@@ -174,16 +230,18 @@ std::list<SeqItems> getUserSequence() {
 
 void simon() { 
   uBit.init(); 
-  std::srand(std::time({}));
-  uBit.display.printAsync("SIMON");
+  pin = &uBit.audio.virtualOutputPin;
+  std::srand(std::time(NULL));
+  uBit.display.scrollAsync("SIMON");
 
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_AB, MICROBIT_BUTTON_EVT_CLICK, onButtonAB);
-  uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_DOWN, onButtonLogo);   
+  uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_DOWN, onButtonLogo);
 
-  while(!gameOver) {
-
+  while(true) {
+    uBit.sleep(1000);
   }
+
   release_fiber();
 } 

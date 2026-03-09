@@ -10,7 +10,7 @@ int main()
 
     // out_of_box_experience();
     // hello_world();
-    low_level_coding();
+    simon();
 
     microbit_panic( 999 );
 }
