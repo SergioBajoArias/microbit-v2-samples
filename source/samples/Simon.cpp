@@ -143,7 +143,7 @@ SeqItems generateRandom() {
 }
 
 std::list<SeqItems> generateRandomSequence() {
-  log("Creating random sequence");
+  log("Creating random sequence\n");
   std::list<SeqItems> sequence;
   for(int i = 0; i < currentLevel; i++) {
     sequence.push_back(generateRandom());
@@ -200,13 +200,13 @@ void onButtonAB(MicroBitEvent) {
 }
 
 void verifyAnswer() {
-  log("Checking user's answer");
+  log("Checking user's answer\n");
   if(randomSequence == userSequence) {
-    log("Answer is correct");
+    log("Answer is correct\n");
     print("spring", tick_Image);
     score++;
   } else {
-    log("Answer is wrong");
+    log("Answer is wrong\n");
     print("sad", cross_Image);
     printGameOver();
     release_fiber();
@@ -218,7 +218,7 @@ void verifyAnswer() {
 }
 
 void makeSimonTurn() {
-  log("Making Simon turn");
+  log("Making Simon's turn\n");
   currentTurn = SIMON;
   randomSequence = generateRandomSequence();
   printSequence(randomSequence);
@@ -244,7 +244,7 @@ std::list<SeqItems> getUserSequence() {
 void simon() { 
   uBit.init(); 
   pin = &uBit.audio.virtualOutputPin;
-  log("Creating random seed");
+  log("Creating random seed\n");
   std::srand(std::time(NULL));
   uBit.display.scrollAsync("SIMON");
 
