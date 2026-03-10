@@ -111,6 +111,10 @@ static void analogPitch(int frequency) {
     }
 }
 
+void log(string message) {
+  uBit.serial.send(message.c_str());
+}
+
 void print(Note note, MicroBitImage image) {
   uBit.display.printAsync(image);
   analogPitch(note);
@@ -139,6 +143,7 @@ SeqItems generateRandom() {
 }
 
 std::list<SeqItems> generateRandomSequence() {
+  log("Creating random sequence");
   std::list<SeqItems> sequence;
   for(int i = 0; i < currentLevel; i++) {
     sequence.push_back(generateRandom());
@@ -171,6 +176,7 @@ void printGameOver() {
 }
 
 void onButtonA(MicroBitEvent) {
+  log("Button A\n");
   if(currentTurn == PLAYER) {
     userSequence.push_back(A);
     printA();
@@ -178,6 +184,7 @@ void onButtonA(MicroBitEvent) {
 }
 
 void onButtonB(MicroBitEvent) {
+  log("Button B\n");
   if(currentTurn == PLAYER) {
     userSequence.push_back(B);
     printB();
@@ -185,6 +192,7 @@ void onButtonB(MicroBitEvent) {
 }
 
 void onButtonAB(MicroBitEvent) {
+  log("Button AB\n");
   if(currentTurn == PLAYER) {
     userSequence.push_back(AB);
     printAB();
@@ -192,10 +200,13 @@ void onButtonAB(MicroBitEvent) {
 }
 
 void verifyAnswer() {
+  log("Checking user's answer");
   if(randomSequence == userSequence) {
+    log("Answer is correct");
     print("spring", tick_Image);
     score++;
   } else {
+    log("Answer is wrong");
     print("sad", cross_Image);
     printGameOver();
     release_fiber();
@@ -207,6 +218,7 @@ void verifyAnswer() {
 }
 
 void makeSimonTurn() {
+  log("Making Simon turn");
   currentTurn = SIMON;
   randomSequence = generateRandomSequence();
   printSequence(randomSequence);
@@ -216,6 +228,7 @@ void makeSimonTurn() {
 }
 
 void onButtonLogo(MicroBitEvent) {
+  log("Button Logo\n");
   if(currentTurn == PLAYER) {
     verifyAnswer();
   }
@@ -231,6 +244,7 @@ std::list<SeqItems> getUserSequence() {
 void simon() { 
   uBit.init(); 
   pin = &uBit.audio.virtualOutputPin;
+  log("Creating random seed");
   std::srand(std::time(NULL));
   uBit.display.scrollAsync("SIMON");
 
