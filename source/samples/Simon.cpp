@@ -148,6 +148,11 @@ std::list<SeqItems> generateRandomSequence() {
   for(int i = 0; i < currentLevel; i++) {
     sequence.push_back(generateRandom());
   }
+  log("Random sequence is ");
+  for(SeqItems seqItem : sequence) {
+    log(std::to_string(seqItem));
+  }
+  log("\n");
   return sequence;
 }
 
@@ -251,7 +256,7 @@ void simon() {
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_AB, MICROBIT_BUTTON_EVT_CLICK, onButtonAB);
-  uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_DOWN, onButtonLogo);
+  uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_CLICK, onButtonLogo);
 
   while(true) {
     uBit.sleep(1000);
