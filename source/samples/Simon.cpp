@@ -3,10 +3,10 @@
 #include "MicroBit.h"
 #include <cstdlib>
 #include <iostream>
-#include <ctime>
 #include <list>
 #include <unistd.h>
 #include <string>
+#include <random>
 
 using namespace std;
 
@@ -71,7 +71,8 @@ enum Note {
 
 enum Turns {
   PLAYER,
-  SIMON
+  SIMON,
+  LEVEL_SELECTION
 };
 
 enum SeqItems {
@@ -81,7 +82,7 @@ enum SeqItems {
     NUMBER_OF_ITEMS
 };
 
-const int START_LEVEL = 4;
+const int START_LEVEL = 3;
 const int LEVEL_SIZE = 2;
 const int BEAT = 500;
 int score = 0;
@@ -90,7 +91,11 @@ Turns currentTurn = SIMON;
 std::list<SeqItems> randomSequence;
 std::list<SeqItems> userSequence;
 
-static Pin *pin = NULL;
+std::random_device rd;  // a seed source for the random number engine
+std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
+std::uniform_int_distribution<int> distrib(0, NUMBER_OF_ITEMS - 1);
+
+static Pin *pin = &uBit.audio.virtualOutputPin;
 static uint8_t pitchVolume = 0xff;
 
 static void analogPitch(int frequency) {
@@ -111,38 +116,38 @@ static void analogPitch(int frequency) {
     }
 }
 
-void log(string message) {
+static void log(string message) {
   uBit.serial.send(message.c_str());
 }
 
-void print(Note note, MicroBitImage image) {
+static void print(Note note, MicroBitImage image) {
   uBit.display.printAsync(image);
   analogPitch(note);
 }
 
-void print(ManagedString sound, MicroBitImage image) {
+static void print(ManagedString sound, MicroBitImage image) {
   uBit.display.print(image);
   uBit.audio.soundExpressions.play(sound);
 }
 
-void printA() {
+static void printA() {
   print(DO, a_Image);
 }
 
-void printB() {
+static void printB() {
   print(FA, b_Image);
 }
 
-void printAB() {
+static void printAB() {
   print(SI, ab_Image);
 }
 
-SeqItems generateRandom() {
-    int randomPosition = std::rand() % NUMBER_OF_ITEMS;
+static SeqItems generateRandom() {
+    int randomPosition = distrib(gen);
     return static_cast<SeqItems>(randomPosition);
 }
 
-std::list<SeqItems> generateRandomSequence() {
+static std::list<SeqItems> generateRandomSequence() {
   log("Creating random sequence\n");
   std::list<SeqItems> sequence;
   for(int i = 0; i < currentLevel; i++) {
@@ -156,7 +161,7 @@ std::list<SeqItems> generateRandomSequence() {
   return sequence;
 }
 
-void printSequence(std::list<SeqItems>& sequence) {
+static void printSequence(std::list<SeqItems>& sequence) {
   for(SeqItems seqItem : sequence) {
     switch(seqItem) {
       case A:   printA();
@@ -172,7 +177,7 @@ void printSequence(std::list<SeqItems>& sequence) {
   }
 }
 
-void printGameOver() {
+static void printGameOver() {
   ManagedString gameOver = "GAME OVER. SCORE ";
   ManagedString scoreMs = ManagedString(score);
 
@@ -180,23 +185,33 @@ void printGameOver() {
   uBit.display.scroll(gameOver + scoreMs);
 }
 
-void onButtonA(MicroBitEvent) {
+static void printCurrentLevel() {
+  uBit.display.print(currentLevel);
+}
+
+static void onButtonA(MicroBitEvent) {
   log("Button A\n");
   if(currentTurn == PLAYER) {
     userSequence.push_back(A);
     printA();
+  } else if (currentTurn == LEVEL_SELECTION) {
+    currentLevel++;
+    printCurrentLevel();
   }
 }
 
-void onButtonB(MicroBitEvent) {
+static void onButtonB(MicroBitEvent) {
   log("Button B\n");
   if(currentTurn == PLAYER) {
     userSequence.push_back(B);
     printB();
+  } else if (currentTurn == LEVEL_SELECTION) {
+    currentLevel--;
+    printCurrentLevel();
   }
 }
 
-void onButtonAB(MicroBitEvent) {
+static void onButtonAB(MicroBitEvent) {
   log("Button AB\n");
   if(currentTurn == PLAYER) {
     userSequence.push_back(AB);
@@ -204,7 +219,7 @@ void onButtonAB(MicroBitEvent) {
   }
 }
 
-void verifyAnswer() {
+static void verifyAnswer() {
   log("Checking user's answer\n");
   if(randomSequence == userSequence) {
     log("Answer is correct\n");
@@ -222,7 +237,7 @@ void verifyAnswer() {
   }
 }
 
-void makeSimonTurn() {
+static void makeSimonTurn() {
   log("Making Simon's turn\n");
   currentTurn = SIMON;
   randomSequence = generateRandomSequence();
@@ -232,7 +247,7 @@ void makeSimonTurn() {
   currentTurn = PLAYER;
 }
 
-void onButtonLogo(MicroBitEvent) {
+static void onButtonLogo(MicroBitEvent) {
   log("Button Logo\n");
   if(currentTurn == PLAYER) {
     verifyAnswer();
@@ -241,22 +256,15 @@ void onButtonLogo(MicroBitEvent) {
   makeSimonTurn();
 }
 
-std::list<SeqItems> getUserSequence() {
-  std::list<SeqItems> userSequence;
-  return userSequence;
-}
-
 void simon() { 
-  uBit.init(); 
-  pin = &uBit.audio.virtualOutputPin;
-  log("Creating random seed\n");
-  std::srand(std::time(NULL));
+  uBit.init();   
   uBit.display.scrollAsync("SIMON");
+  printCurrentLevel();
 
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_AB, MICROBIT_BUTTON_EVT_CLICK, onButtonAB);
-  uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_CLICK, onButtonLogo);
+  uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_DOUBLE_CLICK, onButtonLogo);
 
   while(true) {
     uBit.sleep(1000);
