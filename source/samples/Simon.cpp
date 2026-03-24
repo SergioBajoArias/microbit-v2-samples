@@ -84,10 +84,12 @@ enum SeqItems {
 
 const int START_LEVEL = 3;
 const int LEVEL_SIZE = 2;
+const int MIN_LEVEL = START_LEVEL;
+const int MAX_LEVEL = 9;
 const int BEAT = 500;
 int score = 0;
 int currentLevel = START_LEVEL;
-Turns currentTurn = SIMON;
+Turns currentTurn = LEVEL_SELECTION;
 std::list<SeqItems> randomSequence;
 std::list<SeqItems> userSequence;
 
@@ -194,8 +196,8 @@ static void onButtonA(MicroBitEvent) {
   if(currentTurn == PLAYER) {
     userSequence.push_back(A);
     printA();
-  } else if (currentTurn == LEVEL_SELECTION) {
-    currentLevel++;
+  } else if (currentTurn == LEVEL_SELECTION && currentLevel >= MIN_LEVEL) {
+    currentLevel--;
     printCurrentLevel();
   }
 }
@@ -205,8 +207,8 @@ static void onButtonB(MicroBitEvent) {
   if(currentTurn == PLAYER) {
     userSequence.push_back(B);
     printB();
-  } else if (currentTurn == LEVEL_SELECTION) {
-    currentLevel--;
+  } else if (currentTurn == LEVEL_SELECTION && currentLevel <= MAX_LEVEL) {
+    currentLevel++;
     printCurrentLevel();
   }
 }
@@ -264,7 +266,7 @@ void simon() {
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
   uBit.messageBus.listen(MICROBIT_ID_BUTTON_AB, MICROBIT_BUTTON_EVT_CLICK, onButtonAB);
-  uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_DOUBLE_CLICK, onButtonLogo);
+  uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_LONG_CLICK, onButtonLogo);
 
   while(true) {
     uBit.sleep(1000);
