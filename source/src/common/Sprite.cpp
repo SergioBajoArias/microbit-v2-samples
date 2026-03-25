@@ -8,6 +8,14 @@ void Sprite::setY(int newY) {
     y = newY;
 }
 
+int Sprite::getX() {
+    return x;
+}
+
+int Sprite::getY() {
+    return y;
+}
+
 void Sprite::moveDown() {
     if(y > BOTTOM_LIMIT) {
         setY(y - 1);

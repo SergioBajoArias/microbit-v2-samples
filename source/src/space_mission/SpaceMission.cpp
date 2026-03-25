@@ -8,14 +8,26 @@
 Spaceship spaceship;
 std::list<Asteroid> asteroids;
 
+static void showSprite(Sprite sprite) {
+  uBit.display.image.setPixelValue(sprite.getX(), sprite.getY(), 255);
+}
+
+static void hideSprite(Sprite sprite) {
+  uBit.display.image.setPixelValue(sprite.getX(), sprite.getY(), 0);
+}
+
 static void onButtonA(MicroBitEvent) {
   log("Button A\n");
+  hideSprite(spaceship);
   spaceship.moveLeft();
+  showSprite(spaceship);
 }
 
 static void onButtonB(MicroBitEvent) {
   log("Button B\n");
+  hideSprite(spaceship);
   spaceship.moveRight();
+  showSprite(spaceship);
 }
 
 void space_mission() {

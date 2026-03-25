@@ -14,6 +14,8 @@ class Sprite {
         void setX(int newX);
         void setY(int newY);
     public:
+        int getX();
+        int getY();
         void moveUp();
         void moveDown();
         void moveLeft();
