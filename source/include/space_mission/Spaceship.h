@@ -6,6 +6,8 @@
 class Spaceship : public Sprite {
     public:
         Spaceship();
+        void moveUp();
+        void moveDown();
 };
 
 #endif // SPACESHIP_H

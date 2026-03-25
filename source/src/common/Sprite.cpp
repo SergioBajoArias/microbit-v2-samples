@@ -1,4 +1,9 @@
 #include "Sprite.h"
+#include <random>
+
+Sprite::Sprite() {
+    id = std::rand();
+}
 
 void Sprite::setX(int newX) {
     x = newX;
@@ -17,25 +22,41 @@ int Sprite::getY() {
 }
 
 void Sprite::moveDown() {
-    if(y > BOTTOM_LIMIT) {
+    if(!isBottomLimit()) {
         setY(y - 1);
     }
 }
 
 void Sprite::moveUp() {
-    if(y < TOP_LIMIT) {
+    if(!isTopLimit()) {
         setY(y + 1);
     }
 }
 
 void Sprite::moveLeft() {
-    if(x > LEFT_LIMIT) {
+    if(!isLeftLimit()) {
         setX(x - 1);
     }
 }
 
 void Sprite::moveRight() {
-    if(x < RIGHT_LIMIT) {
+    if(!isRightLimit()) {
         setX(x + 1);
     }
+}
+
+bool Sprite::isBottomLimit() {
+    return y == BOTTOM_LIMIT;
+}
+
+bool Sprite::isTopLimit() {
+    return y == TOP_LIMIT;
+}
+
+bool Sprite::isRightLimit() {
+    return x == RIGHT_LIMIT;
+}
+
+bool Sprite::isLeftLimit() {
+    return x == LEFT_LIMIT;
 }

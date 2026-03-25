@@ -37,7 +37,23 @@ void space_mission() {
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
 
+    int step = 0;
     while(true) {
+        if(step % 3 == 0) {
+          asteroids.push_front(Asteroid());
+        }
+
+        if(!asteroids.empty()) {
+          for(Asteroid asteroid : asteroids) {
+            if(asteroid.isBottomLimit()) {
+              asteroids.remove(asteroid);
+              delete &asteroid;
+            } else {
+              asteroid.moveDown();
+            }
+          }
+        }
+        
         uBit.sleep(1000);
     }
 
