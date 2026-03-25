@@ -28,6 +28,7 @@ class Sprite {
         bool isTopLimit();
         bool isRightLimit();
         bool isLeftLimit();
+        bool hasCollided(const Sprite& s);
 };
 
 #endif // SPRITE_H

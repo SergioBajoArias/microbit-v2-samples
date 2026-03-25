@@ -32,29 +32,41 @@ static void onButtonB(MicroBitEvent) {
 
 void space_mission() {
     uBit.init();
+    hideSprite(spaceship);
     uBit.display.scrollAsync("SPACE MISSION");
+    showSprite(spaceship);
 
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
 
+    bool gameOver = false;
     int step = 0;
-    while(true) {
-        if(step % 3 == 0) {
-          asteroids.push_front(Asteroid());
-        }
-
+    while(!gameOver) {
         if(!asteroids.empty()) {
           for(Asteroid asteroid : asteroids) {
+            hideSprite(asteroid);
             if(asteroid.isBottomLimit()) {
               asteroids.remove(asteroid);
               delete &asteroid;
             } else {
               asteroid.moveDown();
+              showSprite(asteroid);
+              if(spaceship.hasCollided(asteroid)) {
+                gameOver = true;
+                break;
+              };
             }
           }
         }
+
+        if(step % 3 == 0) {
+          Asteroid asteroid;
+          asteroids.push_front(asteroid);
+          showSprite(asteroid);
+        }
         
-        uBit.sleep(1000);
+        int tempo = 1000 - step;
+        uBit.sleep(tempo);
     }
 
     release_fiber();

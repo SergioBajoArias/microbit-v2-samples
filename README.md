@@ -2,8 +2,6 @@
 
 [Original repository](https://github.com/lancaster-university/microbit-v2-samples)
 
-[![Native Build Status](https://github.com/lancaster-university/microbit-v2-samples/actions/workflows/build.yml/badge.svg)](https://github.com/lancaster-university/microbit-v2-samples/actions/workflows/build.yml) [![Docker Build Status](https://github.com/lancaster-university/microbit-v2-samples/actions/workflows/docker-image.yml/badge.svg)](https://github.com/lancaster-university/microbit-v2-samples/actions/workflows/docker-image.yml)
-
 This repository provides the necessary tooling to compile a C/C++ CODAL program for the micro:bit V2 and generate a HEX file that can be downloaded to the device.
 
 ## Raising Issues
@@ -24,6 +22,7 @@ We use Ubuntu Linux for most of our tests. You can also install these tools easi
     sudo apt install git
     sudo apt install cmake
     sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi
+    sudo apt install python3
 ```
 
 ## Yotta
@@ -48,16 +47,6 @@ To omit the final output stage (for CI, for example) run without the `--output` 
 - Clone this repository
 - In the root of this repository type `python build.py`
 - The hex file will be built `MICROBIT.hex` and placed in the root folder.
-
-# Developing
-You will find a simple main.cpp in the `source` folder which you can edit. CODAL will also compile any other C/C++ header files our source files with the extension `.h .c .cpp` it finds in the source folder.
-
-The `samples` folder contains a number of simple sample programs that utilise you may find useful.
-
-## Developer codal.json
-
-There is an example `coda.dev.json` file which enables "developer builds" (clones dependencies from the latest commits, instead of the commits locked in the `codal-microbit-v2` tag), and adds extra CODAL flags that enable debug data to be printed to serial.
-To use it, simply copy the additional json entries into your `codal.json` file, or you can replace the file completely (`mv coda.dev.json codal.json`).
 
 # Debugging
 If you are using Visual Studio Code, there is a working debugging environment already set up for you, allowing you to set breakpoints and observe the micro:bit's memory. To get it working, follow these steps:

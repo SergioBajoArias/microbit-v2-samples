@@ -60,3 +60,7 @@ bool Sprite::isRightLimit() {
 bool Sprite::isLeftLimit() {
     return x == LEFT_LIMIT;
 }
+
+bool Sprite::hasCollided(const Sprite& s) {
+    return x == s.x && y == s.y;
+}
