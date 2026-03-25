@@ -1,6 +1,7 @@
 
 #include "Simon.h"
 #include "MicroBit.h"
+#include "Logger.h"
 #include <cstdlib>
 #include <iostream>
 #include <list>
@@ -116,10 +117,6 @@ static void analogPitch(int frequency) {
         pin->setAnalogValue(0);
         fiber_sleep(5);
     }
-}
-
-static void log(string message) {
-  uBit.serial.send(message.c_str());
 }
 
 static void print(Note note, MicroBitImage image) {

@@ -1,6 +1,4 @@
-
-#include "MicroBit.h"
-#include "samples/Tests.h"
+#include "Tests.h"
 
 MicroBit uBit;
 

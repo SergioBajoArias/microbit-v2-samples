@@ -1,8 +1,8 @@
 #include "SpaceMission.h"
+#include "Logger.h"
 #include <random>
 #include <string>
 #include <list>
-
 
 const int TOP_LIMIT = 4;
 const int BOTTOM_LIMIT = 0;
@@ -79,10 +79,6 @@ class Asteroid : public Sprite {
 Spaceship spaceship;
 std::list<Asteroid> asteroids;
 
-static void log(std::string message) {
-  uBit.serial.send(message.c_str());
-}
-
 static void onButtonA(MicroBitEvent) {
   log("Button A\n");
   spaceship.moveLeft();
@@ -95,6 +91,8 @@ static void onButtonB(MicroBitEvent) {
 
 void space_mission() {
     uBit.init();
+    uBit.display.scrollAsync("SPACE MISSION");
+
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
 
