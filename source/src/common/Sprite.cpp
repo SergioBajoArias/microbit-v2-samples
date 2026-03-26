@@ -23,13 +23,13 @@ int Sprite::getY() {
 
 void Sprite::moveDown() {
     if(!isBottomLimit()) {
-        setY(y - 1);
+        setY(y + 1);
     }
 }
 
 void Sprite::moveUp() {
     if(!isTopLimit()) {
-        setY(y + 1);
+        setY(y - 1);
     }
 }
 

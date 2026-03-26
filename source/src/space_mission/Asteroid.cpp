@@ -3,7 +3,7 @@
 #include <random>
 
 Asteroid::Asteroid() : Sprite() {
-    setX(std::rand() % RIGHT_LIMIT + 1);
+    setX(std::rand() % (RIGHT_LIMIT + 1));
     setY(TOP_LIMIT);
     log("Created asteroid");
 }

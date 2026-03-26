@@ -7,8 +7,8 @@ int main()
     uBit.init();
 
     // hello_world();
-    simon();
-    // space_mission();
+    // simon();
+    space_mission();
 
     microbit_panic( 999 );
 }

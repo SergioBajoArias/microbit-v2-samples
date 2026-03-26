@@ -9,6 +9,7 @@ Spaceship spaceship;
 std::list<Asteroid> asteroids;
 
 static void showSprite(Sprite sprite) {
+  // log("Sprint position is [" + std::to_string(sprite.getX()) + "," + std::to_string(sprite.getY()) + "]");
   uBit.display.image.setPixelValue(sprite.getX(), sprite.getY(), 255);
 }
 
@@ -32,6 +33,7 @@ static void onButtonB(MicroBitEvent) {
 
 void space_mission() {
     uBit.init();
+
     hideSprite(spaceship);
     uBit.display.scrollAsync("SPACE MISSION");
     showSprite(spaceship);
@@ -42,7 +44,7 @@ void space_mission() {
     bool gameOver = false;
     int step = 0;
     while(!gameOver) {
-        if(!asteroids.empty()) {
+        /*if(!asteroids.empty()) {
           for(Asteroid asteroid : asteroids) {
             hideSprite(asteroid);
             if(asteroid.isBottomLimit()) {
@@ -63,7 +65,10 @@ void space_mission() {
           Asteroid asteroid;
           asteroids.push_front(asteroid);
           showSprite(asteroid);
-        }
+          
+          asteroids.remove(asteroid);
+          delete &asteroid;
+        }*/
         
         int tempo = 1000 - step;
         uBit.sleep(tempo);
