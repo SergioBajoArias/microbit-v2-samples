@@ -35,26 +35,27 @@ void space_mission() {
     uBit.init();
 
     hideSprite(spaceship);
-    uBit.display.scrollAsync("SPACE MISSION");
+    uBit.display.scroll("SPACE MISSION");
     showSprite(spaceship);
 
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
 
     bool gameOver = false;
-    int step = 0;
+    int step = 1;
     while(!gameOver) {
         if(!asteroids.empty()) {
           log("Handling asteroids...");
           for(Asteroid asteroid : asteroids) {
-            log("Handling asteroid " + asteroid.getId());
+            log("Handling asteroid " + std::to_string(asteroid.getId()));
+            log("Position is [" + std::to_string(asteroid.getX()) + "," + std::to_string(asteroid.getY()) + "]");
             hideSprite(asteroid);
             if(asteroid.isBottomLimit()) {
               log("Asteroid " + std::to_string(asteroid.getId()) + " is at the bottom. It will be removed");
               asteroids.remove(asteroid);
               delete &asteroid;
             } else {
-              log("Moving down asteroid " + asteroid.getId());
+              log("Moving down asteroid " + std::to_string(asteroid.getId()));
               asteroid.moveDown();
               showSprite(asteroid);
               if(spaceship.hasCollided(asteroid)) {
@@ -66,7 +67,7 @@ void space_mission() {
           }
         }
 
-        if(step % 3 == 0) {
+        if(step ==  3) {
           log("Adding a new asteroid to the collection");
           Asteroid asteroid;
           asteroids.push_front(asteroid);
@@ -76,6 +77,7 @@ void space_mission() {
         int tempo = 1000 - step;
         uBit.sleep(tempo);
         log("Iteration " + std::to_string(step) + " finished");
+        step++;
     }
 
     release_fiber();
