@@ -44,16 +44,21 @@ void space_mission() {
     bool gameOver = false;
     int step = 0;
     while(!gameOver) {
-        /*if(!asteroids.empty()) {
+        if(!asteroids.empty()) {
+          log("Handling asteroids...");
           for(Asteroid asteroid : asteroids) {
+            log("Handling asteroid " + asteroid.getId());
             hideSprite(asteroid);
             if(asteroid.isBottomLimit()) {
+              log("Asteroid " + std::to_string(asteroid.getId()) + " is at the bottom. It will be removed");
               asteroids.remove(asteroid);
               delete &asteroid;
             } else {
+              log("Moving down asteroid " + asteroid.getId());
               asteroid.moveDown();
               showSprite(asteroid);
               if(spaceship.hasCollided(asteroid)) {
+                log("Asteroid " + std::to_string(asteroid.getId()) + " crashed against the spaceship!");
                 gameOver = true;
                 break;
               };
@@ -62,16 +67,15 @@ void space_mission() {
         }
 
         if(step % 3 == 0) {
+          log("Adding a new asteroid to the collection");
           Asteroid asteroid;
           asteroids.push_front(asteroid);
           showSprite(asteroid);
-          
-          asteroids.remove(asteroid);
-          delete &asteroid;
-        }*/
+        }
         
         int tempo = 1000 - step;
         uBit.sleep(tempo);
+        log("Iteration " + std::to_string(step) + " finished");
     }
 
     release_fiber();

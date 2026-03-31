@@ -5,7 +5,7 @@
 Asteroid::Asteroid() : Sprite() {
     setX(std::rand() % (RIGHT_LIMIT + 1));
     setY(TOP_LIMIT);
-    log("Created asteroid");
+    log("Created asteroid with id " + std::to_string(getId()) + " at position [" + std::to_string(getX()) + "," + std::to_string(getY()) + "]");
 }
 
 void Asteroid::moveUp() {

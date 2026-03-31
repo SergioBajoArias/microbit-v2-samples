@@ -21,6 +21,10 @@ int Sprite::getY() {
     return y;
 }
 
+int Sprite::getId() {
+    return id;
+}
+
 void Sprite::moveDown() {
     if(!isBottomLimit()) {
         setY(y + 1);

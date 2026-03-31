@@ -20,6 +20,7 @@ class Sprite {
         Sprite();
         int getX();
         int getY();
+        int getId();
         void moveUp();
         void moveDown();
         void moveLeft();
