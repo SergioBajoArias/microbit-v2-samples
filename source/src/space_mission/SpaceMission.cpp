@@ -18,14 +18,14 @@ static void hideSprite(Sprite sprite) {
 }
 
 static void onButtonA(MicroBitEvent) {
-  log("Button A\n");
+  log("Button A");
   hideSprite(spaceship);
   spaceship.moveLeft();
   showSprite(spaceship);
 }
 
 static void onButtonB(MicroBitEvent) {
-  log("Button B\n");
+  log("Button B");
   hideSprite(spaceship);
   spaceship.moveRight();
   showSprite(spaceship);

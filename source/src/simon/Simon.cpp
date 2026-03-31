@@ -147,16 +147,15 @@ static SeqItems generateRandom() {
 }
 
 static std::list<SeqItems> generateRandomSequence() {
-  log("Creating random sequence\n");
+  log("Creating random sequence");
   std::list<SeqItems> sequence;
   for(int i = 0; i < currentLevel; i++) {
     sequence.push_back(generateRandom());
   }
   log("Random sequence is ");
   for(SeqItems seqItem : sequence) {
-    log(std::to_string(seqItem));
+    log(std::to_string(seqItem), false);
   }
-  log("\n");
   return sequence;
 }
 
@@ -189,7 +188,7 @@ static void printCurrentLevel() {
 }
 
 static void onButtonA(MicroBitEvent) {
-  log("Button A\n");
+  log("Button A");
   if(currentTurn == PLAYER) {
     userSequence.push_back(A);
     printA();
@@ -200,7 +199,7 @@ static void onButtonA(MicroBitEvent) {
 }
 
 static void onButtonB(MicroBitEvent) {
-  log("Button B\n");
+  log("Button B");
   if(currentTurn == PLAYER) {
     userSequence.push_back(B);
     printB();
@@ -211,7 +210,7 @@ static void onButtonB(MicroBitEvent) {
 }
 
 static void onButtonAB(MicroBitEvent) {
-  log("Button AB\n");
+  log("Button AB");
   if(currentTurn == PLAYER) {
     userSequence.push_back(AB);
     printAB();
@@ -219,13 +218,13 @@ static void onButtonAB(MicroBitEvent) {
 }
 
 static void verifyAnswer() {
-  log("Checking user's answer\n");
+  log("Checking user's answer");
   if(randomSequence == userSequence) {
-    log("Answer is correct\n");
+    log("Answer is correct");
     print("spring", tick_Image);
     score++;
   } else {
-    log("Answer is wrong\n");
+    log("Answer is wrong");
     print("sad", cross_Image);
     printGameOver();
     release_fiber();
@@ -237,7 +236,7 @@ static void verifyAnswer() {
 }
 
 static void makeSimonTurn() {
-  log("Making Simon's turn\n");
+  log("Making Simon's turn");
   currentTurn = SIMON;
   randomSequence = generateRandomSequence();
   printSequence(randomSequence);
@@ -247,7 +246,7 @@ static void makeSimonTurn() {
 }
 
 static void onButtonLogo(MicroBitEvent) {
-  log("Button Logo\n");
+  log("Button Logo");
   if(currentTurn == PLAYER) {
     verifyAnswer();
   }
