@@ -46,14 +46,14 @@ void space_mission() {
     while(!gameOver) {
         if(!asteroids.empty()) {
           log("Handling asteroids...");
-          for(Asteroid asteroid : asteroids) {
+          for(Asteroid& asteroid : asteroids) {
             log("Handling asteroid " + std::to_string(asteroid.getId()));
             log("Position is [" + std::to_string(asteroid.getX()) + "," + std::to_string(asteroid.getY()) + "]");
             hideSprite(asteroid);
             if(asteroid.isBottomLimit()) {
               log("Asteroid " + std::to_string(asteroid.getId()) + " is at the bottom. It will be removed");
-              asteroids.remove(asteroid);
-              delete &asteroid;
+              asteroids.pop_back();
+              // delete &asteroid;
             } else {
               log("Moving down asteroid " + std::to_string(asteroid.getId()));
               asteroid.moveDown();
@@ -67,7 +67,7 @@ void space_mission() {
           }
         }
 
-        if(step ==  3) {
+        if(step %  3 == 0) {
           log("Adding a new asteroid to the collection");
           Asteroid asteroid;
           asteroids.push_front(asteroid);
