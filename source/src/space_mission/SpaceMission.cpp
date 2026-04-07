@@ -67,18 +67,25 @@ void space_mission() {
           }
         }
 
-        if(step %  3 == 0) {
-          log("Adding a new asteroid to the collection");
-          Asteroid asteroid;
-          asteroids.push_front(asteroid);
-          showSprite(asteroid);
+        if(!gameOver) {
+          if(step %  2 == 0) {
+            log("Adding a new asteroid to the collection");
+            Asteroid asteroid;
+            asteroids.push_front(asteroid);
+            showSprite(asteroid);
+          }
+          
+          int tempo = 1000 - (step * 3);
+          uBit.sleep(tempo);
+          log("Iteration " + std::to_string(step) + " finished");
+          step++;
         }
         
-        int tempo = 1000 - step;
-        uBit.sleep(tempo);
-        log("Iteration " + std::to_string(step) + " finished");
-        step++;
     }
+    
+    uBit.display.clear();
+    asteroids.clear();
+    uBit.display.scroll("GAME OVER");
 
     release_fiber();
 
