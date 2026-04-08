@@ -3,6 +3,7 @@
 #include "MicroBit.h"
 #include "Logger.h"
 #include "Random.h"
+#include "Sound.h"
 #include <cstdlib>
 #include <iostream>
 #include <list>
@@ -60,16 +61,6 @@ MicroBitImage tick_Image(tick_emoji);
 MicroBitImage cross_Image(cross_emoji);
 MicroBitImage smile_Image(smile_emoji);
 
-enum Note {
-    DO = 262,
-    RE = 294,
-    MI = 330,
-    FA = 349,
-    SOL = 392,
-    LA = 440,
-    SI = 494
-};
-
 enum Turns {
   PLAYER,
   SIMON,
@@ -87,37 +78,15 @@ const int START_LEVEL = 3;
 const int LEVEL_SIZE = 2;
 const int MIN_LEVEL = START_LEVEL;
 const int MAX_LEVEL = 9;
-const int BEAT = 500;
 int score = 0;
 int currentLevel = START_LEVEL;
 Turns currentTurn = LEVEL_SELECTION;
 std::list<SeqItems> randomSequence;
 std::list<SeqItems> userSequence;
 
-static Pin *pin = &uBit.audio.virtualOutputPin;
-static uint8_t pitchVolume = 0xff;
-
-static void analogPitch(int frequency) {
-    if (frequency <= 0 || pitchVolume == 0) {
-        pin->setAnalogValue(0);
-    } else {
-        // I don't understand the logic of this value.
-        // It is much louder on the real pin.
-        int v = 1 << (pitchVolume >> 5);
-        // If you flip the order of these they crash on the real pin with E030.
-        pin->setAnalogValue(v);
-        pin->setAnalogPeriodUs(1000000/frequency);
-    }
-    if (BEAT > 0) {
-        fiber_sleep(BEAT);
-        pin->setAnalogValue(0);
-        fiber_sleep(5);
-    }
-}
-
 static void print(Note note, MicroBitImage image) {
   uBit.display.printAsync(image);
-  analogPitch(note);
+  playSound(note);
 }
 
 static void print(ManagedString sound, MicroBitImage image) {

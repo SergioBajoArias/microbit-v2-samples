@@ -1,7 +1,9 @@
-#include <string>
-#include "MicroBit.h"
+#ifndef LOGGER_H
+#define LOGGER_H
 
-extern MicroBit uBit;
+#include <string>
 
 void log(std::string message);
 void log(std::string message, bool addNewLine);
+
+#endif // LOGGER_H
