@@ -2,12 +2,12 @@
 #include "Simon.h"
 #include "MicroBit.h"
 #include "Logger.h"
+#include "Random.h"
 #include <cstdlib>
 #include <iostream>
 #include <list>
 #include <unistd.h>
 #include <string>
-#include <random>
 
 using namespace std;
 
@@ -94,10 +94,6 @@ Turns currentTurn = LEVEL_SELECTION;
 std::list<SeqItems> randomSequence;
 std::list<SeqItems> userSequence;
 
-std::random_device rd;  // a seed source for the random number engine
-std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
-std::uniform_int_distribution<int> distrib(0, NUMBER_OF_ITEMS - 1);
-
 static Pin *pin = &uBit.audio.virtualOutputPin;
 static uint8_t pitchVolume = 0xff;
 
@@ -142,7 +138,7 @@ static void printAB() {
 }
 
 static SeqItems generateRandom() {
-    int randomPosition = distrib(gen);
+    int randomPosition = getRandom(0, NUMBER_OF_ITEMS);
     return static_cast<SeqItems>(randomPosition);
 }
 

@@ -1,9 +1,9 @@
 #include "space_mission/Asteroid.h"
 #include "Logger.h"
-#include <random>
+#include "Random.h"
 
 Asteroid::Asteroid() : Sprite() {
-    setX(std::rand() % (RIGHT_LIMIT + 1));
+    setX(getRandom(0, RIGHT_LIMIT));
     setY(TOP_LIMIT);
     log("Created asteroid with id " + std::to_string(getId()) + " at position [" + std::to_string(getX()) + "," + std::to_string(getY()) + "]");
 }
