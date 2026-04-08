@@ -5,6 +5,8 @@
 
 extern MicroBit uBit;
 
+const int BEAT = 500;
+
 enum Note {
     C = 262,
     CSharp = 277,
@@ -56,7 +58,7 @@ enum Note {
     B5 = 988,
 };
 
-
 void playSound(int frequency);
+void playSound(int frequency, int beat);
 
 #endif // SOUND_H

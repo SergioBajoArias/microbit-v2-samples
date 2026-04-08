@@ -1,11 +1,14 @@
 #include "Sound.h"
 
-const int BEAT = 500;
-
 Pin *pin = &uBit.audio.virtualOutputPin;
+// Pin *pin = &uBit.io.P0;
 uint8_t pitchVolume = 0xff;
 
 void playSound(int frequency) {
+    playSound(frequency, BEAT);
+}
+
+void playSound(int frequency, int beat) {
     if (frequency <= 0 || pitchVolume == 0) {
         pin->setAnalogValue(0);
     } else {
@@ -17,7 +20,7 @@ void playSound(int frequency) {
         pin->setAnalogPeriodUs(1000000/frequency);
     }
     if (BEAT > 0) {
-        fiber_sleep(BEAT);
+        fiber_sleep(beat);
         pin->setAnalogValue(0);
         fiber_sleep(5);
     }
