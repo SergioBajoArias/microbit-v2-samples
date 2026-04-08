@@ -68,9 +68,9 @@ enum Turns {
 };
 
 enum SeqItems {
-    A,
-    B,
-    AB,
+    BUTTON_A,
+    BUTTON_B,
+    BUTTON_AB,
     NUMBER_OF_ITEMS
 };
 
@@ -95,15 +95,15 @@ static void print(ManagedString sound, MicroBitImage image) {
 }
 
 static void printA() {
-  print(DO, a_Image);
+  print(C, a_Image);
 }
 
 static void printB() {
-  print(FA, b_Image);
+  print(F, b_Image);
 }
 
 static void printAB() {
-  print(SI, ab_Image);
+  print(B, ab_Image);
 }
 
 static SeqItems generateRandom() {
@@ -127,11 +127,11 @@ static std::list<SeqItems> generateRandomSequence() {
 static void printSequence(std::list<SeqItems>& sequence) {
   for(SeqItems seqItem : sequence) {
     switch(seqItem) {
-      case A:   printA();
+      case BUTTON_A:   printA();
                 break;
-      case B:   printB();
+      case BUTTON_B:   printB();
                 break;
-      case AB:  printAB();
+      case BUTTON_AB:  printAB();
                 break;
       default:  ;
     }
@@ -155,7 +155,7 @@ static void printCurrentLevel() {
 static void onButtonA(MicroBitEvent) {
   log("Button A");
   if(currentTurn == PLAYER) {
-    userSequence.push_back(A);
+    userSequence.push_back(BUTTON_A);
     printA();
   } else if (currentTurn == LEVEL_SELECTION && currentLevel >= MIN_LEVEL) {
     currentLevel--;
@@ -166,7 +166,7 @@ static void onButtonA(MicroBitEvent) {
 static void onButtonB(MicroBitEvent) {
   log("Button B");
   if(currentTurn == PLAYER) {
-    userSequence.push_back(B);
+    userSequence.push_back(BUTTON_B);
     printB();
   } else if (currentTurn == LEVEL_SELECTION && currentLevel <= MAX_LEVEL) {
     currentLevel++;
@@ -177,7 +177,7 @@ static void onButtonB(MicroBitEvent) {
 static void onButtonAB(MicroBitEvent) {
   log("Button AB");
   if(currentTurn == PLAYER) {
-    userSequence.push_back(AB);
+    userSequence.push_back(BUTTON_AB);
     printAB();
   }
 }
