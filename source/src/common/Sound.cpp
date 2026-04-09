@@ -2,7 +2,7 @@
 
 Pin *pin = &uBit.audio.virtualOutputPin;
 // Pin *pin = &uBit.io.P0;
-uint8_t pitchVolume = 0xff;
+uint8_t pitchVolume = 0xaa;
 
 void playSound(int frequency) {
     playSound(frequency, BEAT);

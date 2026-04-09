@@ -22,5 +22,32 @@ void playStarWarsMelody() {
             playSound(F, BEAT * 2);
             playSound(D, BEAT * 12);
         }
+
+        playSound(A, BEAT * 6);
+        playSound(A, BEAT * 2);
+        playSound(F, BEAT * 2);
+        playSound(E, BEAT * 2);
+        playSound(D, BEAT * 2);
+        playSound(C, BEAT * 2);
+
+        playSound(C, BEAT);
+        playSound(D, BEAT);
+        playSound(E, BEAT);
+        playSound(D, BEAT * 2);
+        playSound(A, BEAT * 2);
+        playSound(B, BEAT * 4);
+        playSound(G, BEAT * 2);
+        playSound(G, BEAT * 2);
+
+        playSound(A, BEAT * 6);
+        playSound(A, BEAT * 2);
+        playSound(F, BEAT * 2);
+        playSound(E, BEAT * 2);
+        playSound(D, BEAT * 2);
+        playSound(C, BEAT * 2);
+
+        playSound(G, BEAT * 4);
+        playSound(D, BEAT * 8);
+        playSound(G, BEAT * 4);
     }
 }
