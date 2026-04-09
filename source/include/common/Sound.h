@@ -5,7 +5,7 @@
 
 extern MicroBit uBit;
 
-const int BEAT = 500;
+const int BEAT = 100;
 
 enum Note {
     C = 262,
