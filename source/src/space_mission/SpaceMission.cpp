@@ -8,6 +8,7 @@
 
 Spaceship spaceship;
 std::list<Asteroid> asteroids;
+Fiber* melodyFiber;
 
 static void showSprite(Sprite sprite) {
   // log("Sprint position is [" + std::to_string(sprite.getX()) + "," + std::to_string(sprite.getY()) + "]");
@@ -32,10 +33,13 @@ static void onButtonB(MicroBitEvent) {
   showSprite(spaceship);
 }
 
+static void onButtonLogo(MicroBitEvent) {
+  log("Button logo");
+  melodyFiber = create_fiber(playStarWarsMelody);
+}
+
 void space_mission() {
     uBit.init();
-
-    create_fiber(playStarWarsMelody);
 
     hideSprite(spaceship);
     uBit.display.scroll("SPACE MISSION");
@@ -43,6 +47,7 @@ void space_mission() {
 
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
     uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
+    uBit.messageBus.listen(MICROBIT_ID_LOGO, MICROBIT_BUTTON_EVT_CLICK, onButtonLogo);
 
     bool gameOver = false;
     int step = 1;
@@ -91,5 +96,4 @@ void space_mission() {
     uBit.display.scroll("GAME OVER");
 
     release_fiber();
-
 }

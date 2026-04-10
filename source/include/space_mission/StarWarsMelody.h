@@ -3,4 +3,6 @@
 
 void playStarWarsMelody();
 
+void playBlock3();
+
 #endif // STARWARSMELODY_H
