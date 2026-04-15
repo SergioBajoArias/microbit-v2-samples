@@ -1,8 +1,11 @@
 #ifndef STARWARSMELODY_H
 #define STARWARSMELODY_H
 
-void playStarWarsMelody();
+#include "Melody.h"
 
-void playBlock3();
+class StarWarsMelody : public Melody {
+    public:
+        StarWarsMelody(MelodyStatus status);
+};
 
 #endif // STARWARSMELODY_H

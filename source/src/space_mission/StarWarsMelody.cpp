@@ -90,7 +90,11 @@ void playBlock3()
     playSound(G, BEAT * 16);
 }
 
-void playStarWarsMelody() {
+StarWarsMelody::StarWarsMelody(MelodyStatus status) : Melody(status) {
+    
+}
+
+void StarWarsMelody::play() {
     while(1) {
         for(int i = 0; i < 2; i++) {
             playBlock1(false);
