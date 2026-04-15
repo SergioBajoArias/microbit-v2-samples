@@ -2,6 +2,10 @@
 
 Melody::Melody(MelodyStatus status) {
     this->status = status;
+    if(status = PLAYING) {
+        create_fiber(play); 
+    }
+    
 }
 
 void Melody::play() {

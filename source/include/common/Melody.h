@@ -1,6 +1,8 @@
 #ifndef MELODY_H
 #define MELODY_H
 
+#include <MicroBit.h>
+
 enum MelodyStatus {
     PLAYING,
     STOPPED
