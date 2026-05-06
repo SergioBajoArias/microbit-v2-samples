@@ -2,13 +2,12 @@
 
 Pin *pin = &uBit.audio.virtualOutputPin;
 // Pin *pin = &uBit.io.P0;
-uint8_t pitchVolume = 0xcc;
 
 void playSound(int frequency) {
-    playSound(frequency, BEAT);
+    playSound(frequency, BEAT, VOLUME_ON);
 }
 
-void playSound(int frequency, int beat) {
+void playSound(int frequency, int beat, int pitchVolume) {
     if (frequency <= 0 || pitchVolume == 0) {
         pin->setAnalogValue(0);
     } else {

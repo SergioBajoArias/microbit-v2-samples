@@ -58,7 +58,12 @@ enum Note {
     B5 = 988,
 };
 
+enum Volume {
+    VOLUME_ON = 1,
+    VOLUME_OFF = 0
+};
+
 void playSound(int frequency);
-void playSound(int frequency, int beat);
+void playSound(int frequency, int beat, int pitchVolume);
 
 #endif // SOUND_H

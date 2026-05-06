@@ -6,6 +6,7 @@
 class StarWarsMelody : public Melody {
     public:
         StarWarsMelody(MelodyStatus status);
+        void play();
 };
 
 #endif // STARWARSMELODY_H
