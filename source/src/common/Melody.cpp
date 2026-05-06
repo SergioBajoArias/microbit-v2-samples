@@ -4,26 +4,23 @@
 
 Melody::Melody(MelodyStatus status) {
     this->status = status;
-    if(status == PLAYING) {
-        currentVolume = VOLUME_ON;
-    } else {
-        currentVolume = VOLUME_OFF;
-    }
     create_fiber(play);
 }
 
-MelodyStatus Melody::getStatus() {
-    return status;
+int Melody::getCurrentVolume() {
+    if(this->status == PLAYING) {
+        return VOLUME_ON;
+    } else {
+        return VOLUME_OFF;
+    }
 }
 
 void Melody::toggleStatus() {
     if(status == PLAYING) {
         log("Stopping melody");
-        status = STOPPED;
-        currentVolume = VOLUME_OFF;
+        this->status = STOPPED;
     } else if (status == STOPPED) {
         log("Resuming melody");
-        status = PLAYING;
-        currentVolume = VOLUME_ON;
+        this->status = PLAYING;
     }
 }

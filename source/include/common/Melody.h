@@ -9,13 +9,12 @@ enum MelodyStatus {
 };
 
 class Melody {
-    protected:
+    private:
         MelodyStatus status;
-        int currentVolume;
     public:
         Melody(MelodyStatus status);
         virtual void play();
-        MelodyStatus getStatus();
+        int getCurrentVolume();
         void toggleStatus();
 };
 
