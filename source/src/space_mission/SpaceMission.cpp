@@ -39,10 +39,14 @@ static void onButtonLogo(MicroBitEvent) {
   starWarsMelody.toggleStatus();
 }
 
+static void playMelody() {
+  starWarsMelody.play();
+}
+
 void space_mission() {
     uBit.init();
 
-    starWarsMelody.play();
+    create_fiber(playMelody);
 
     hideSprite(spaceship);
     uBit.display.scroll("SPACE MISSION");

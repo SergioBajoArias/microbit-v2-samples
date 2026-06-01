@@ -4,7 +4,7 @@
 
 Melody::Melody(MelodyStatus status) {
     this->status = status;
-    create_fiber(play);
+    play();
 }
 
 int Melody::getCurrentVolume() {
@@ -13,6 +13,10 @@ int Melody::getCurrentVolume() {
     } else {
         return VOLUME_OFF;
     }
+}
+
+void Melody::play() {
+    
 }
 
 void Melody::toggleStatus() {

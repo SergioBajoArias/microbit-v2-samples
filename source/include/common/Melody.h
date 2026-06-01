@@ -13,7 +13,7 @@ class Melody {
         MelodyStatus status;
     public:
         Melody(MelodyStatus status);
-        virtual void play();
+        void play();
         int getCurrentVolume();
         void toggleStatus();
 };
