@@ -90,7 +90,7 @@ void space_mission() {
             showSprite(asteroid);
           }
           
-          int tempo = 1000 - (step * 3);
+          int tempo = 1000 - (step * 10);
           uBit.sleep(tempo);
           log("Iteration " + std::to_string(step) + " finished");
           step++;

@@ -4,7 +4,6 @@
 
 Melody::Melody(MelodyStatus status) {
     this->status = status;
-    play();
 }
 
 int Melody::getCurrentVolume() {
