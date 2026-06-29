@@ -8,7 +8,8 @@ int main()
 
     // hello_world();
     // simon();
-    space_mission();
+    // space_mission();
+    gpio_test();
 
     microbit_panic( 999 );
 }

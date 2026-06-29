@@ -4,6 +4,7 @@
 #include "Logger.h"
 #include "Random.h"
 #include "Sound.h"
+#include "Image.h"
 #include <cstdlib>
 #include <iostream>
 #include <list>
@@ -11,55 +12,6 @@
 #include <string>
 
 using namespace std;
-
-const char * const smile_emoji ="\
-    000,000,000,000,000\n\
-    000,255,000,255,000\n\
-    000,000,000,000,000\n\
-    000,255,000,255,000\n\
-    000,000,255,000,000\n";
-
-const char * const a_emoji ="\
-    000,000,000,000,000\n\
-    255,000,000,000,000\n\
-    255,000,000,000,000\n\
-    255,000,000,000,000\n\
-    000,000,000,000,000\n";
-
-const char * const b_emoji ="\
-    000,000,000,000,000\n\
-    000,000,000,000,255\n\
-    000,000,000,000,255\n\
-    000,000,000,000,255\n\
-    000,000,000,000,000\n";
-
-const char * const ab_emoji ="\
-    000,000,000,000,000\n\
-    255,000,000,000,255\n\
-    255,000,000,000,255\n\
-    255,000,000,000,255\n\
-    000,000,000,000,000\n";
-
-const char * const tick_emoji ="\
-    000,000,000,000,000\n\
-    000,000,000,000,255\n\
-    000,000,000,255,000\n\
-    255,000,255,000,000\n\
-    000,255,000,000,000\n";
-
-const char * const cross_emoji ="\
-    255,000,000,000,255\n\
-    000,255,000,255,000\n\
-    000,000,255,000,000\n\
-    000,255,000,255,000\n\
-    255,000,000,000,255\n";
-
-MicroBitImage a_Image(a_emoji);
-MicroBitImage b_Image(b_emoji);
-MicroBitImage ab_Image(ab_emoji);
-MicroBitImage tick_Image(tick_emoji);
-MicroBitImage cross_Image(cross_emoji);
-MicroBitImage smile_Image(smile_emoji);
 
 enum Turns {
   PLAYER,
@@ -95,15 +47,15 @@ static void print(ManagedString sound, MicroBitImage image) {
 }
 
 static void printA() {
-  print(C, a_Image);
+  print(C, A_IMAGE);
 }
 
 static void printB() {
-  print(F, b_Image);
+  print(F, B_IMAGE);
 }
 
 static void printAB() {
-  print(B, ab_Image);
+  print(B, AB_IMAGE);
 }
 
 static SeqItems generateRandom() {
@@ -186,11 +138,11 @@ static void verifyAnswer() {
   log("Checking user's answer");
   if(randomSequence == userSequence) {
     log("Answer is correct");
-    print("spring", tick_Image);
+    print("spring", TICK_IMAGE);
     score++;
   } else {
     log("Answer is wrong");
-    print("sad", cross_Image);
+    print("sad", CROSS_IMAGE);
     printGameOver();
     release_fiber();
   }
@@ -205,7 +157,7 @@ static void makeSimonTurn() {
   currentTurn = SIMON;
   randomSequence = generateRandomSequence();
   printSequence(randomSequence);
-  uBit.display.print(smile_Image);
+  uBit.display.print(SMILE_IMAGE);
   userSequence.clear();
   currentTurn = PLAYER;
 }
